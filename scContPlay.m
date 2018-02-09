@@ -3,7 +3,7 @@ close all
 
 % specify file name
 files = dir('*noise.wav');
-fs = 192e3;
+fs = 192e3; % change my stim to this)
 
 % chunk duration (how much data is added at a time)
 %chunkDur = 1;
@@ -41,11 +41,14 @@ devID = d(ind).DeviceIndex;
 s = PsychPortAudio('Open',devID,1,3,fs,1,[],[],0);
 status = PsychPortAudio('GetStatus',s);
 
-fprintf('Loading sound file %s... ',files(1).name);
-tic; y = audioread(files(1).name)'; toc;
-%y = randn(1,fs);
-fprintf('Adding to buffer...');
-tic; PsychPortAudio('FillBuffer',s,y/500); toc;
+% select the wav file
+fprintf('Loading sound file %s... ',files(1).name); %print on the screen what is happening
+tic; y = audioread(files(1).name)'; toc; % select the wav file
+%y = randn(1,fs*10); % or just generate a wav file online - this is 10 sec long now
+
+fprintf('Adding to buffer...'); %print on the screen what is happening
+tic; PsychPortAudio('FillBuffer',s,y/500); toc; %load the stim file to the buffer
+% 500 is for the intensity
 
 % % add to schedule
 % PsychPortAudio('UseSchedule',s, 1);
